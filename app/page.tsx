@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-ad    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
       <header className="bg-black text-white p-6 shadow-md">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
