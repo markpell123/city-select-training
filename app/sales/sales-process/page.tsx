@@ -18,36 +18,31 @@ export default function SalesProcessPage() {
       title: 'Overview of the Sales Process',
       url: 'https://www.youtube.com/embed/m5bxzd-fsro',
       description: 'An introduction to the complete City Select sales process.',
+      quizLink: '/sales/sales-process/overview-quiz',
     },
     {
       title: 'The Meet and Greet',
       url: 'https://www.youtube.com/embed/QmFYb5Ek5mk',
       description: 'Best practices for making a great first impression.',
+      quizLink: '/sales/sales-process/meet-and-greet',
     },
     {
       title: 'Understanding the Credit App',
       url: 'https://www.youtube.com/embed/GE21UarMGxM',
       description: 'How to guide a customer through the credit application.',
+      quizLink: '/sales/sales-process/credit-app',
     },
     {
       title: 'Conversation Log',
-      url: 'https://www.youtube.com/embed/your_video_id_4',
+      url: 'https://www.youtube.com/embed/7Gajoafejas',
       description: 'Using the conversation log to keep accurate records.',
+      quizLink: '/sales/sales-process/conversation-log',
     },
     {
-      title: 'Vehicle Selection',
-      url: 'https://www.youtube.com/embed/your_video_id_5',
-      description: 'How to match the customer with the right car.',
-    },
-    {
-      title: 'Test Drive',
-      url: 'https://www.youtube.com/embed/your_video_id_6',
-      description: 'Tips to create a smooth, informative test drive experience.',
-    },
-    {
-      title: 'Close the Sale',
-      url: 'https://www.youtube.com/embed/your_video_id_7',
-      description: 'Steps to finalize the deal and leave the customer satisfied.',
+      title: 'Test Drive and Close',
+      url: 'https://www.youtube.com/embed/DVgBeWSGBHY',
+      description: 'Steps to deliver a great test drive and close the sale.',
+      quizLink: '/sales/sales-process/test-drive-and-close',
     },
   ];
 
@@ -68,9 +63,21 @@ export default function SalesProcessPage() {
                 allowFullScreen
               ></iframe>
             </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-              Take Quiz
-            </button>
+            {video.quizLink ? (
+              <button
+                onClick={() => router.push(video.quizLink)}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Take Quiz
+              </button>
+            ) : (
+              <button
+                className="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed"
+                disabled
+              >
+                Quiz Coming Soon
+              </button>
+            )}
           </div>
         ))}
       </div>
