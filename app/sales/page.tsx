@@ -23,7 +23,7 @@ export default function SalesTrainingPage() {
     {
       title: 'Advanced Sales Techniques',
       description: 'Tactical tools for handling objections and improving closing.',
-      href: '/sales/advanced-sales',
+      slug: '/sales/advanced-sales',
     },
     {
       title: 'Phone Skills',
