@@ -2,6 +2,7 @@
 
 import { useAuthContext } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function AdvancedSalesPage() {
   const { user, loading } = useAuthContext();
@@ -18,21 +19,25 @@ export default function AdvancedSalesPage() {
       title: 'Handling “Just Looking”',
       url: 'https://www.youtube.com/embed/ZoXVJCtUP4k',
       description: 'How to respond confidently when a customer says “I’m just looking.”',
+      quiz: '/sales/advanced-sales/just-looking-quiz',
     },
     {
       title: 'Asking Great Questions During the Conversation Log',
       url: 'https://www.youtube.com/embed/XHvBLi0G24U',
       description: 'Use discovery questions to build trust and uncover needs.',
+      quiz: '/sales/advanced-sales/convo-questions-quiz',
     },
     {
       title: 'The Bounce Back Close',
       url: 'https://www.youtube.com/embed/KCMcEZ5Mrv4',
       description: 'A simple but effective closing technique for uncertain customers.',
+      quiz: '/sales/advanced-sales/bounce-back-quiz',
     },
     {
       title: 'Handling “What’s the Price?”',
       url: 'https://www.youtube.com/embed/hnIFJ_NtROI',
       description: 'How to shift from price questions to down payment and payments.',
+      quiz: '/sales/advanced-sales/price-question-quiz',
     },
   ];
 
@@ -53,9 +58,11 @@ export default function AdvancedSalesPage() {
                 allowFullScreen
               ></iframe>
             </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-              Take Quiz
-            </button>
+            <Link href={video.quiz}>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Take Quiz
+              </button>
+            </Link>
           </div>
         ))}
       </div>
