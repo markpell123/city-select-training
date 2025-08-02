@@ -2,40 +2,58 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/lib/AuthContext';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function OverviewQuiz() {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
+  const { user } = useAuthContext();
 
-  const correctAnswer = 'b';
+  const correctAnswer = 'a';
 
-  const handleSubmit = () => {
-    if (selected) {
-      const correct = selected === correctAnswer;
-      setIsCorrect(correct);
-      setSubmitted(true);
-    }
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    // 🔥 Save to Firestore
+    const userRef = doc(db, 'userProgress', user.uid);
+    await setDoc(userRef, {
+      email: user.email,
+      activity: {
+        'sales-process': {
+          'overview-of-sales-process': {
+            watched: true,
+            quizScore: correct ? 1 : 0,
+            completedAt: new Date().toISOString(),
+          }
+        }
+      }
+    }, { merge: true });
   };
 
   useEffect(() => {
     if (submitted && isCorrect) {
       const timer = setTimeout(() => {
         router.push('/sales/sales-process');
-      }, 5000); // 5 seconds
-
-      return () => clearTimeout(timer); // clean up if component unmounts
+      }, 5000);
+      return () => clearTimeout(timer);
     }
   }, [submitted, isCorrect, router]);
 
   const question = {
-    text: 'What is the purpose of the sales process overview?',
+    text: 'What is the first step in the City Select sales process?',
     options: {
-      a: 'To explain how financing works',
-      b: 'To outline the complete flow from greeting to closing',
-      c: 'To show how to inspect a vehicle',
-      d: 'To practice cold-calling techniques',
+      a: 'The Meet and Greet',
+      b: 'Test Drive',
+      c: 'Conversation Log',
+      d: 'Close the Sale',
     },
   };
 
@@ -76,7 +94,7 @@ export default function OverviewQuiz() {
             </p>
           ) : (
             <p className="text-red-600 font-semibold">
-              Incorrect ❌ — the correct answer is “b”.
+              Incorrect ❌ — the correct answer is “a”.
             </p>
           )}
         </div>

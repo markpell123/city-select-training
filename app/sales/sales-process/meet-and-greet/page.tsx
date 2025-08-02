@@ -2,21 +2,39 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/lib/AuthContext';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function MeetAndGreetQuiz() {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
+  const { user } = useAuthContext();
 
-  const correctAnswer = 'a';
+  const correctAnswer = 'b';
 
-  const handleSubmit = () => {
-    if (selected) {
-      const correct = selected === correctAnswer;
-      setIsCorrect(correct);
-      setSubmitted(true);
-    }
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    const ref = doc(db, 'userProgress', user.uid);
+    await setDoc(ref, {
+      email: user.email,
+      activity: {
+        'sales-process': {
+          'the-meet-and-greet': {
+            watched: true,
+            quizScore: correct ? 1 : 0,
+            completedAt: new Date().toISOString(),
+          }
+        }
+      }
+    }, { merge: true });
   };
 
   useEffect(() => {
@@ -29,12 +47,12 @@ export default function MeetAndGreetQuiz() {
   }, [submitted, isCorrect, router]);
 
   const question = {
-    text: 'What is the most important goal of the meet and greet?',
+    text: 'What’s the primary goal of the meet and greet?',
     options: {
-      a: 'Make the customer feel welcome and establish trust',
-      b: 'Collect their driver’s license and credit score immediately',
-      c: 'Show them the most expensive car on the lot',
-      d: 'Begin negotiating payments right away',
+      a: 'Collect the customer’s documents',
+      b: 'Create a friendly first impression and build rapport',
+      c: 'Show the customer the most expensive vehicle',
+      d: 'Ask the customer if they’re paying cash',
     },
   };
 
@@ -75,7 +93,7 @@ export default function MeetAndGreetQuiz() {
             </p>
           ) : (
             <p className="text-red-600 font-semibold">
-              Incorrect ❌ — the correct answer is “a”.
+              Incorrect ❌ — the correct answer is “b”.
             </p>
           )}
         </div>

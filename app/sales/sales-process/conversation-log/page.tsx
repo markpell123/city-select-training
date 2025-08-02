@@ -2,21 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/lib/AuthContext';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function ConversationLogQuiz() {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
+  const { user } = useAuthContext();
 
-  const correctAnswer = 'd';
+  const correctAnswer = 'a';
 
-  const handleSubmit = () => {
-    if (selected) {
-      const correct = selected === correctAnswer;
-      setIsCorrect(correct);
-      setSubmitted(true);
-    }
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    const ref = doc(db, 'userProgress', user.uid);
+    await setDoc(ref, {
+      email: user.email,
+      activity: {
+        'sales-process': {
+          'conversation-log': {
+            watched: true,
+            quizScore: correct ? 1 : 0,
+            completedAt: new Date().toISOString(),
+          }
+        }
+      }
+    }, { merge: true });
   };
 
   useEffect(() => {
@@ -29,12 +46,12 @@ export default function ConversationLogQuiz() {
   }, [submitted, isCorrect, router]);
 
   const question = {
-    text: 'Why is using the conversation log important?',
+    text: 'Why is the conversation log important during the sales process?',
     options: {
-      a: 'It replaces the need to complete a credit app',
-      b: 'It allows you to avoid following up with customers',
-      c: 'It is used to track which car they liked most',
-      d: 'It documents interactions and helps ensure consistent follow-up',
+      a: 'To record customer interactions and keep follow-up notes',
+      b: 'To track dealership inventory',
+      c: 'To apply for car insurance',
+      d: 'To send automated marketing emails',
     },
   };
 
@@ -75,7 +92,7 @@ export default function ConversationLogQuiz() {
             </p>
           ) : (
             <p className="text-red-600 font-semibold">
-              Incorrect ❌ — the correct answer is “d”.
+              Incorrect ❌ — the correct answer is “a”.
             </p>
           )}
         </div>

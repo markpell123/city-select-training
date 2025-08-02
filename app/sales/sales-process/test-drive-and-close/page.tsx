@@ -2,21 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/lib/AuthContext';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function TestDriveAndCloseQuiz() {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
+  const { user } = useAuthContext();
 
-  const correctAnswer = 'b';
+  const correctAnswer = 'd';
 
-  const handleSubmit = () => {
-    if (selected) {
-      const correct = selected === correctAnswer;
-      setIsCorrect(correct);
-      setSubmitted(true);
-    }
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    const ref = doc(db, 'userProgress', user.uid);
+    await setDoc(ref, {
+      email: user.email,
+      activity: {
+        'sales-process': {
+          'test-drive-and-close': {
+            watched: true,
+            quizScore: correct ? 1 : 0,
+            completedAt: new Date().toISOString(),
+          }
+        }
+      }
+    }, { merge: true });
   };
 
   useEffect(() => {
@@ -29,12 +46,12 @@ export default function TestDriveAndCloseQuiz() {
   }, [submitted, isCorrect, router]);
 
   const question = {
-    text: 'What is a key part of a successful close after a test drive?',
+    text: 'What is one key part of closing the sale after the test drive?',
     options: {
-      a: 'Letting the customer leave to think it over without asking questions',
-      b: 'Using their feedback to transition naturally into the closing conversation',
-      c: 'Showing them more vehicles even if they liked the test drive',
-      d: 'Immediately asking for a down payment before discussing price',
+      a: 'Take back the credit application',
+      b: 'Change the price of the vehicle',
+      c: 'Skip the paperwork',
+      d: 'Address concerns and confirm the customer is ready to move forward',
     },
   };
 
@@ -75,7 +92,7 @@ export default function TestDriveAndCloseQuiz() {
             </p>
           ) : (
             <p className="text-red-600 font-semibold">
-              Incorrect ❌ — the correct answer is “b”.
+              Incorrect ❌ — the correct answer is “d”.
             </p>
           )}
         </div>

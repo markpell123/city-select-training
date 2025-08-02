@@ -1,18 +1,19 @@
 // lib/firebase.ts
 
-import { initializeApp, getApps } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCdGe8REwreIx_ubeyYC7TBAkdce3jl2TA",
-  authDomain: "city-select-training.firebaseapp.com",
-  projectId: "city-select-training",
-  storageBucket: "city-select-training.firebasestorage.app",
-  messagingSenderId: "864327585408",
-  appId: "1:864327585408:web:4d4f0ea4a7ae6f01b12065",
-  measurementId: "G-K440DX4E06"
+  apiKey: 'YOUR_API_KEY',
+  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+  projectId: 'YOUR_PROJECT_ID',
+  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+  messagingSenderId: 'YOUR_SENDER_ID',
+  appId: 'YOUR_APP_ID',
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const db = getFirestore(app);

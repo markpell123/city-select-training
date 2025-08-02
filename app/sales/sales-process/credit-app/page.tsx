@@ -2,21 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/lib/AuthContext';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function CreditAppQuiz() {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
+  const { user } = useAuthContext();
 
   const correctAnswer = 'c';
 
-  const handleSubmit = () => {
-    if (selected) {
-      const correct = selected === correctAnswer;
-      setIsCorrect(correct);
-      setSubmitted(true);
-    }
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    const ref = doc(db, 'userProgress', user.uid);
+    await setDoc(ref, {
+      email: user.email,
+      activity: {
+        'sales-process': {
+          'credit-app': {
+            watched: true,
+            quizScore: correct ? 1 : 0,
+            completedAt: new Date().toISOString(),
+          },
+        },
+      },
+    }, { merge: true });
   };
 
   useEffect(() => {
@@ -29,12 +46,12 @@ export default function CreditAppQuiz() {
   }, [submitted, isCorrect, router]);
 
   const question = {
-    text: 'What is the key to helping a customer complete the credit application?',
+    text: 'What is the main purpose of the credit application?',
     options: {
-      a: 'Filling it out as quickly as possible without questions',
-      b: 'Asking the customer to complete it on their own at home',
-      c: 'Walking through it step-by-step and answering their questions',
-      d: 'Only completing it after showing them cars first',
+      a: 'To schedule the test drive',
+      b: 'To choose a specific vehicle',
+      c: 'To evaluate financing eligibility and gather personal info',
+      d: 'To determine insurance needs',
     },
   };
 
@@ -75,7 +92,7 @@ export default function CreditAppQuiz() {
             </p>
           ) : (
             <p className="text-red-600 font-semibold">
-              Incorrect ❌ — the correct answer is “c”.
+              Incorrect ❌ — the correct answer is "c".
             </p>
           )}
         </div>
