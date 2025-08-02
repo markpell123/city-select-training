@@ -1,64 +1,102 @@
 'use client';
 
-import { useState } from 'react';
-import { useAuthContext } from '@/lib/AuthContext';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { doc, setDoc } from 'firebase/firestore';
+import { useAuthContext } from '@/lib/AuthContext';
 import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function JustLookingQuiz() {
-  const { user, loading } = useAuthContext();
+  const [selected, setSelected] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
   const router = useRouter();
-  const [answered, setAnswered] = useState(false);
-  const [correct, setCorrect] = useState(false);
+  const { user } = useAuthContext();
 
-  const handleAnswer = async (isCorrect: boolean) => {
-    setAnswered(true);
-    setCorrect(isCorrect);
+  const correctAnswer = 'c';
 
-    if (user) {
-      await setDoc(
-        doc(db, 'userProgress', user.uid),
-        {
-          email: user.email,
-          activity: {
-            'advanced-sales': {
-              'just-looking': {
-                quizScore: isCorrect ? 1 : 0,
-                completedAt: new Date().toISOString(),
-              },
+  const handleSubmit = async () => {
+    if (!selected || !user) return;
+    const correct = selected === correctAnswer;
+    setIsCorrect(correct);
+    setSubmitted(true);
+
+    const ref = doc(db, 'userProgress', user.uid);
+    await setDoc(
+      ref,
+      {
+        email: user.email,
+        activity: {
+          'advanced-sales': {
+            'just-looking': {
+              watched: true,
+              quizScore: correct ? 1 : 0,
+              completedAt: new Date().toISOString(),
             },
           },
         },
-        { merge: true }
-      );
-    }
-
-    setTimeout(() => {
-      router.push('/sales/advanced-sales');
-    }, 5000);
+      },
+      { merge: true }
+    );
   };
 
-  if (loading) return <p className="p-8">Loading...</p>;
-  if (!user) {
-    router.push('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (submitted && isCorrect) {
+      const timer = setTimeout(() => {
+        router.push('/sales/advanced-sales');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted, isCorrect, router]);
+
+  const question = {
+    text: 'How should you respond when a customer says "I’m just looking"?',
+    options: {
+      a: 'Let them browse freely without approaching them',
+      b: 'Ask if they want to test drive something now',
+      c: 'Acknowledge and begin asking friendly discovery questions to build trust',
+    },
+  };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Quiz: Handling “Just Looking”</h1>
-      {!answered ? (
-        <>
-          <p className="mb-4">What’s the best way to respond when a customer says “I’m just looking”?</p>
-          <div className="space-y-2">
-            <button onClick={() => handleAnswer(false)} className="btn">Leave them alone completely</button>
-            <button onClick={() => handleAnswer(true)} className="btn">Stay engaged and ask what brought them in today</button>
-            <button onClick={() => handleAnswer(false)} className="btn">Push hard for a test drive</button>
+    <div className="min-h-screen bg-white text-gray-900 p-8 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Quiz: Handling "Just Looking"</h1>
+      <p className="mb-4 text-lg">{question.text}</p>
+      <div className="space-y-4 mb-6">
+        {Object.entries(question.options).map(([key, value]) => (
+          <div key={key} className="flex items-center">
+            <input
+              type="radio"
+              id={key}
+              name="answer"
+              value={key}
+              checked={selected === key}
+              onChange={() => setSelected(key)}
+              className="mr-2"
+            />
+            <label htmlFor={key}>{value}</label>
           </div>
-        </>
+        ))}
+      </div>
+
+      {!submitted ? (
+        <button
+          onClick={handleSubmit}
+          disabled={!selected}
+          className={`px-4 py-2 rounded text-white ${
+            selected ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
+          }`}
+        >
+          Submit
+        </button>
       ) : (
-        <p className="mt-4 text-lg">{correct ? '✅ Correct!' : '❌ Incorrect.'} Returning to video list...</p>
+        <div className="mt-6">
+          {isCorrect ? (
+            <p className="text-green-600 font-semibold">Correct! ✅ Returning to video list...</p>
+          ) : (
+            <p className="text-red-600 font-semibold">Incorrect ❌ — the correct answer is "c".</p>
+          )}
+        </div>
       )}
     </div>
   );
