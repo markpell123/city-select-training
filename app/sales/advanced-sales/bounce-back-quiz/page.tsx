@@ -52,13 +52,21 @@ export default function BounceBackQuiz() {
         <>
           <p className="mb-4">What is the purpose of the Bounce Back Close?</p>
           <div className="space-y-2">
-            <button onClick={() => handleAnswer(false)} className="btn">To immediately drop the price</button>
-            <button onClick={() => handleAnswer(true)} className="btn">To re-engage a hesitant customer with a question that brings them back to value</button>
-            <button onClick={() => handleAnswer(false)} className="btn">To suggest a different vehicle</button>
+            <button onClick={() => handleAnswer(false)} className="btn">
+              To immediately drop the price
+            </button>
+            <button onClick={() => handleAnswer(true)} className="btn">
+              To re-engage a hesitant customer with a question that brings them back to value
+            </button>
+            <button onClick={() => handleAnswer(false)} className="btn">
+              To suggest a different vehicle
+            </button>
           </div>
         </>
       ) : (
-        <p className="mt-4 text-lg">{correct ? '✅ Correct!' : '❌ Incorrect.'} Returning to video list...</p>
+        <p className="mt-4 text-lg">
+          {correct ? '✅ Correct!' : '❌ Incorrect.'} Returning to video list...
+        </p>
       )}
     </div>
   );
