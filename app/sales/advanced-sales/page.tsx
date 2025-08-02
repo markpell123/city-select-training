@@ -16,22 +16,22 @@ export default function AdvancedSalesPage() {
   const videos = [
     {
       title: 'Handling “Just Looking”',
-      url: 'https://www.youtube.com/embed/your_video_id_1',
+      url: 'https://www.youtube.com/embed/ZoXVJCtUP4k',
       description: 'How to respond confidently when a customer says “I’m just looking.”',
     },
     {
       title: 'Asking Great Questions During the Conversation Log',
-      url: 'https://www.youtube.com/embed/your_video_id_2',
+      url: 'https://www.youtube.com/embed/XHvBLi0G24U',
       description: 'Use discovery questions to build trust and uncover needs.',
     },
     {
       title: 'The Bounce Back Close',
-      url: 'https://www.youtube.com/embed/your_video_id_3',
+      url: 'https://www.youtube.com/embed/KCMcEZ5Mrv4',
       description: 'A simple but effective closing technique for uncertain customers.',
     },
     {
       title: 'Handling “What’s the Price?”',
-      url: 'https://www.youtube.com/embed/your_video_id_4',
+      url: 'https://www.youtube.com/embed/hnIFJ_NtROI',
       description: 'How to shift from price questions to down payment and payments.',
     },
   ];
