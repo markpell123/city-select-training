@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
 import { doc, setDoc } from 'firebase/firestore';
@@ -50,15 +50,25 @@ export default function ConvoQuestionsQuiz() {
       <h1 className="text-2xl font-bold mb-4">Quiz: Asking Great Questions</h1>
       {!answered ? (
         <>
-          <p className="mb-4">What is the main purpose of asking thoughtful questions during the conversation log?</p>
+          <p className="mb-4">
+            What is the main purpose of asking thoughtful questions during the conversation log?
+          </p>
           <div className="space-y-2">
-            <button onClick={() => handleAnswer(false)} className="btn">To speed up the credit check process</button>
-            <button onClick={() => handleAnswer(true)} className="btn">To build trust and understand the customer’s real needs</button>
-            <button onClick={() => handleAnswer(false)} className="btn">To show off your inventory knowledge</button>
+            <button onClick={() => handleAnswer(false)} className="btn">
+              To speed up the credit check process
+            </button>
+            <button onClick={() => handleAnswer(true)} className="btn">
+              To build trust and understand the customer’s real needs
+            </button>
+            <button onClick={() => handleAnswer(false)} className="btn">
+              To show off your inventory knowledge
+            </button>
           </div>
         </>
       ) : (
-        <p className="mt-4 text-lg">{correct ? '✅ Correct!' : '❌ Incorrect.'} Returning to video list...</p>
+        <p className="mt-4 text-lg">
+          {correct ? '✅ Correct!' : '❌ Incorrect.'} Returning to video list...
+        </p>
       )}
     </div>
   );

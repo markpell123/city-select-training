@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
 import { doc, setDoc } from 'firebase/firestore';
@@ -52,9 +52,9 @@ export default function JustLookingQuiz() {
         <>
           <p className="mb-4">What’s the best way to respond when a customer says “I’m just looking”?</p>
           <div className="space-y-2">
-            <button onClick={() => handleAnswer(false)} className="btn">Let them look around alone</button>
-            <button onClick={() => handleAnswer(true)} className="btn">Acknowledge and start asking soft questions to engage</button>
-            <button onClick={() => handleAnswer(false)} className="btn">Give them a flyer and walk away</button>
+            <button onClick={() => handleAnswer(false)} className="btn">Leave them alone completely</button>
+            <button onClick={() => handleAnswer(true)} className="btn">Stay engaged and ask what brought them in today</button>
+            <button onClick={() => handleAnswer(false)} className="btn">Push hard for a test drive</button>
           </div>
         </>
       ) : (

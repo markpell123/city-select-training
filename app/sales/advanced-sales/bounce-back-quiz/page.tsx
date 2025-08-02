@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
 import { doc, setDoc } from 'firebase/firestore';
@@ -50,11 +50,11 @@ export default function BounceBackQuiz() {
       <h1 className="text-2xl font-bold mb-4">Quiz: The Bounce Back Close</h1>
       {!answered ? (
         <>
-          <p className="mb-4">What is the bounce back close used for?</p>
+          <p className="mb-4">What is the purpose of the Bounce Back Close?</p>
           <div className="space-y-2">
-            <button onClick={() => handleAnswer(false)} className="btn">To give the customer a discount</button>
-            <button onClick={() => handleAnswer(true)} className="btn">To re-engage a hesitant customer with a reaffirming statement or question</button>
-            <button onClick={() => handleAnswer(false)} className="btn">To change the topic away from pricing</button>
+            <button onClick={() => handleAnswer(false)} className="btn">To immediately drop the price</button>
+            <button onClick={() => handleAnswer(true)} className="btn">To re-engage a hesitant customer with a question that brings them back to value</button>
+            <button onClick={() => handleAnswer(false)} className="btn">To suggest a different vehicle</button>
           </div>
         </>
       ) : (
