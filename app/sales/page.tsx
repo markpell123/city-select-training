@@ -21,6 +21,11 @@ export default function SalesTrainingPage() {
       slug: 'sales-process',
     },
     {
+      title: 'Advanced Sales Techniques',
+      description: 'Tactical tools for handling objections and improving closing.',
+      href: '/sales/advanced-sales',
+    },
+    {
       title: 'Phone Skills',
       description: 'Become a Champion of the Phone.',
       slug: 'phone-skills',
