@@ -20,7 +20,7 @@ export default function CollectionsTechniquesPage() {
     },
     {
       title: 'Payment Negotiation Basics',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2',
+      url: 'https://www.youtube.com/embed/trI6nw-5bEQ',
       description: 'Anchors, ranges, and securing real commitments.',
       quiz: '/collections/collections-techniques/negotiation-basics-quiz',
     },
