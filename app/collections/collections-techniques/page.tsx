@@ -14,7 +14,7 @@ export default function CollectionsTechniquesPage() {
   const videos = [
     {
       title: 'Tone, Empathy, and Control',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_1',
+      url: 'https://www.youtube.com/embed/Zoivl20-_9E',
       description: 'Balancing empathy with forward momentum.',
       quiz: '/collections/collections-techniques/tone-empathy-quiz',
     },
