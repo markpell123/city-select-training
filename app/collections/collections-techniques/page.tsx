@@ -26,13 +26,13 @@ export default function CollectionsTechniquesPage() {
     },
     {
       title: 'Using Silence & Pacing',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_3',
+      url: 'https://www.youtube.com/embed/cZGwU3BWlpw',
       description: 'Letting customers talk while guiding the call.',
       quiz: '/collections/collections-techniques/silence-pacing-quiz',
     },
     {
-      title: 'Openers & Voicemails that Get Callbacks',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_4',
+      title: 'Voicemails & Text Messages that Get Callbacks',
+      url: 'https://www.youtube.com/embed/kBpUjz886bY',
       description: 'Crafting messages that convert.',
       quiz: '/collections/collections-techniques/openers-voicemail-quiz',
     },
