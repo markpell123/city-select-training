@@ -14,27 +14,27 @@ export default function PhoneSkillsPage() {
   const videos = [
     {
       title: 'Handling a Phone Call',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_1',
+      url: 'https://www.youtube.com/embed/3rDCvsGQS2M',
       description: 'End-to-end structure for a professional, effective call.',
       quiz: '/sales/phone-skills/handling-a-phone-call-quiz',
     },
     {
       title: 'How to Greet',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2',
+      url: 'https://www.youtube.com/embed/JH6luAWuPoI',
       description: 'Open strong: name, dealership, permission, purpose.',
       quiz: '/sales/phone-skills/how-to-greet-quiz',
     },
     {
       title: 'Bridging Skills',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_3',
+      url: 'https://www.youtube.com/embed/HBBBp4EgWic',
       description: 'Smooth transitions that keep the conversation on track.',
       quiz: '/sales/phone-skills/bridging-skills-quiz',
     },
     {
-      title: 'Setting Appointments',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_4',
-      description: 'Lock the time, confirm details, reduce no-shows.',
-      quiz: '/sales/phone-skills/setting-appointments-quiz',
+      title: 'How to Control a call',
+      url: 'https://www.youtube.com/embed/HBBBp4EgWic',
+      description: 'Lead with questions, pace, and confident summaries.',
+      quiz: '/sales/phone-skills/how-to-control-a-call-quiz',
     },
     {
       title: 'Handling Objections',
@@ -43,10 +43,10 @@ export default function PhoneSkillsPage() {
       quiz: '/sales/phone-skills/handling-objections-quiz',
     },
     {
-      title: 'How to Control a Call',
-      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_6',
-      description: 'Lead with questions, pace, and confident summaries.',
-      quiz: '/sales/phone-skills/how-to-control-a-call-quiz',
+      title: 'Setting Appointments',
+      url: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_4',
+      description: 'Lock the time, confirm details, reduce no-shows.',
+      quiz: '/sales/phone-skills/setting-appointments-quiz',
     },
     {
       title: 'Voice and Tone',
